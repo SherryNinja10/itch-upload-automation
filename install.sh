@@ -7,14 +7,15 @@ echo "Starting installation for Itch Automation App..."
 echo "Installing prerequisities"
 sudo apt-get update
 
-AUTOMATION_LOCATION="~/.itch_automation"
-BIN_LOCATION="~/.local/bin"
+AUTOMATION_LOCATION="$HOME/.itch_automation"
+BIN_LOCATION="$HOME/.local/bin"
 echo "Creating installation directory at $AUTOMATION_LOCATION and bin directory if not already created at $BIN_LOCATION..."
 mkdir -p "$AUTOMATION_LOCATION"
+mkdir -p "$BIN_LOCATION"
 cd "$AUTOMATION_LOCATION"
 
-curl -sSL -o "https://raw.githubusercontent.com/SherryNinja10/itch-upload-automation/refs/heads/main/uploader.py"
-curl -sSL -o "https://raw.githubusercontent.com/SherryNinja10/itch-upload-automation/refs/heads/main/requirements.txt"
+curl -sSL -o "uploader.py" "https://raw.githubusercontent.com/SherryNinja10/itch-upload-automation/refs/heads/main/uploader.py"
+curl -sSL -o "requirements.txt" "https://raw.githubusercontent.com/SherryNinja10/itch-upload-automation/refs/heads/main/requirements.txt"
 
 echo "Setting up Python virtual environment..."
 python3 -m venv venv

@@ -69,7 +69,7 @@ if output_file.exists():
 
 # Itch.io login
 
-profile_dir = Path.home() / "personal_projects" / "2d_games_camp_uploader" / "itch_automator" / "itch_profile"
+profile_dir = Path.home() / ".itch_automation" / "itch_profile"
 
 print("Login into Itch.io")
 
