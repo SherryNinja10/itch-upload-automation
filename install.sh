@@ -27,8 +27,9 @@ pip install -r requirements.txt
 deactivate
 
 echo "Installing butler cli and adding it to the path..."
-curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-unzip butler.zip -d ~/.local/bin
+curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+unzip -o butler.zip -d "$BIN_LOCATION"
+chmod +x "$BIN_LOCATION/butler"
 echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 
 echo "Creating alias and inputting into ~/.bashrc"
