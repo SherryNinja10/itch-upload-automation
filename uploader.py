@@ -147,7 +147,7 @@ for game in uploads_dir.iterdir():
 
             # This is the command that will run through subprocess
             command = [
-                "godot",
+                "/bc/Software/Godot/Godot_v4.4.1-stable_linux.x86_64",
                 "--headless",
                 "--path", str(game),
                 "--export-release", "Web",
