@@ -24,6 +24,7 @@ source venv/bin/activate
 echo "Installing Python dependencies..."
 pip install --upgrade pip
 pip install -r requirements.txt
+playwright install chromium
 deactivate
 
 echo "Installing butler cli and adding it to the path..."
