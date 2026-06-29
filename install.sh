@@ -35,8 +35,6 @@ unzip -o butler.zip -d "$BIN_LOCATION"
 chmod +x "$BIN_LOCATION/butler"
 echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 
-"$BIN_LOCATION/butler" login
-
 echo "Creating alias and inputting into ~/.bashrc"
 echo 'alias itch_uploader="source ~/.itch_automation/venv/bin/activate && python3 ~/.itch_automation/uploader.py && deactivate"' >> $HOME/.bashrc
 
