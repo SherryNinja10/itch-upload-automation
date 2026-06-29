@@ -35,9 +35,15 @@ unzip -o butler.zip -d "$BIN_LOCATION"
 chmod +x "$BIN_LOCATION/butler"
 echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 
+"$BIN_LOCATION/butler" login
+
 echo "Creating alias and inputting into ~/.bashrc"
 echo 'alias itch_uploader="source ~/.itch_automation/venv/bin/activate && python3 ~/.itch_automation/uploader.py && deactivate"' >> $HOME/.bashrc
 
-source $HOME/.bashrc
-
-echo "Install complete. To use the script run the following in a folder containing the godot projects you want to export and upload to itch: itch_uploader"
+echo "----------------------------------------------------------------------------------------------------------"
+echo "Install complete!"
+echo "To use the tool right away, reload your shell config:"
+echo "    source ~/.bashrc"
+echo ""
+echo "Then, run 'itch_uploader' in the folder containing all the Godot projects you want to export and upload."
+echo "----------------------------------------------------------------------------------------------------------"
