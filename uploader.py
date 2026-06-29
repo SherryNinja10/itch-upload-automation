@@ -1,6 +1,7 @@
 import re
 import shutil
 import subprocess
+from urllib.parse import urlparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
@@ -215,11 +216,16 @@ with sync_playwright() as p:
 
         page.wait_for_load_state("networkidle")
         final_url = page.url
+
+        parsed_url = urlparse(final_url)
+
+        username = parsed_url.netloc.split(".")[0]
+
         game_slug = final_url.split("/")[-1]
 
         # -------------------------------------------------------------------
 
-        butler_target = f"sherryninja/{game_slug}:web"
+        butler_target = f"{username}/{game_slug}:web"
         actual_zip_file = f"{build['zip_path']}.zip"
 
         butler_command = [
@@ -282,7 +288,8 @@ with sync_playwright() as p:
             page.wait_for_load_state("networkidle")
         except subprocess.CalledProcessError as e:
             print(f"Butler upload failed with error code {e.returncode}")
-            print(e.stderr)
+            print(f"STDERR: {e.stderr}")
+            print(f"STDOUT: {e.stdout}")
         
         page.close()
 
