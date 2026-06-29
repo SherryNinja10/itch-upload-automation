@@ -17,6 +17,8 @@ cd "$AUTOMATION_LOCATION"
 curl -sSL -o "uploader.py" "https://raw.githubusercontent.com/SherryNinja10/itch-upload-automation/refs/heads/main/uploader.py"
 curl -sSL -o "requirements.txt" "https://raw.githubusercontent.com/SherryNinja10/itch-upload-automation/refs/heads/main/requirements.txt"
 
+export PIP_NO_INDEX=false
+
 echo "Setting up Python virtual environment..."
 python3 -m venv venv
 source venv/bin/activate
