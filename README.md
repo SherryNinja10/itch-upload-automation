@@ -1,8 +1,21 @@
-## Setting Up the Automator
+## Curl setup:
+1. **Run the following command in the home directory**:
+   ```bash
+   curl -sSL https://raw.githubusercontent.com/SherryNinja10/itch-upload-automation/refs/heads/main/install.sh | bash
+
+2. **Run the followiung command** in the terminal:
+   ```bash
+   source ~/.bashrc
+
+3. **Run the followiung command** in the terminal:
+   ```bash
+   butler login
+
+## Setting Up the Automator Manually:
 
 1. **Create a new directory** where you want the script to reside:
    ```bash
-   mkdir -p ~/itch_automation
+   mkdir -p ~/.itch_automation
 
 ```
 
@@ -53,7 +66,7 @@ echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
 *(Ensure the path points to the exact folder where you unzipped Butler in the previous step.)*
 8. **Add the execution alias** to your `.bashrc` (or `.zshrc`):
 ```bash
-echo "alias itch_uploader='source ~/personal_projects/2d_games_camp_uploader/venv/bin/activate && python ~/personal_projects/2d_games_camp_uploader/uploader.py && deactivate'" >> ~/.bashrc
+echo 'alias itch_uploader="source ~/.itch_automation/venv/bin/activate && python3 ~/.itch_automation/uploader.py && deactivate"' >> $HOME/.bashrc
 
 ```
 
