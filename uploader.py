@@ -90,16 +90,14 @@ with sync_playwright() as p:
 
     page.wait_for_url("https://itch.io/dashboard", timeout=0)
 
-    user_link = page.locator("a.user_link, .user_widget a.user_name, .header_user a").first
-    
-    if user_link.is_visible():
-        profile_href = user_link.get_attribute("href") or ""
-        parsed = urlparse(profile_href)
-        itch_username = parsed.netloc.split(".")[0]
-    else:
-        raw_user = page.evaluate("() => window.I && window.I.user ? window.I.user.username : null")
-        if raw_user:
-            itch_username = raw_user
+    # Locate the link using the visible display name
+    user_link = page.get_by_role("link", name="Apple Banana").first
+
+    # Extract the URL from the link (e.g., "https://applebanana.itch.io" or "https://applebanana.itch.io/")
+    href = user_link.get_attribute("href") or ""
+
+    # Parse the subdomain to get the actual Butler username ("applebanana")
+    itch_username = urlparse(href).netloc.split(".")[0]
 
     page.close()
     context.close()
