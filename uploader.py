@@ -90,12 +90,9 @@ with sync_playwright() as p:
 
     page.wait_for_url("https://itch.io/dashboard", timeout=0)
 
-    profile_link = page.locator(".user_menu a.user_link, .user_nav a[href*='.itch.io']").first
-    profile_link.wait_for(state="attached", timeout=10000)
-
-    href = profile_link.get_attribute("href") or ""
-
-    itch_username = urlparse(href).netloc.split(".")[0]
+    user_name_element = page.locator("a.profile_link .user_name")
+    user_name_element.wait_for(state="visible", timeout=10000)
+    itch_username = user_name_element.inner_text().strip()
 
     page.close()
     context.close()
