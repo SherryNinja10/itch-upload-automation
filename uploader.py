@@ -90,9 +90,13 @@ with sync_playwright() as p:
 
     page.wait_for_url("https://itch.io/dashboard", timeout=0)
 
-    user_name_element = page.locator("a.profile_link .user_name")
-    user_name_element.wait_for(state="visible", timeout=10000)
-    itch_username = user_name_element.inner_text().strip()
+    profile_link = page.locator('a.profile_link[data-label="my_profile"]')
+    profile_link.wait_for(state="attached", timeout=10000)
+
+    href = profile_link.get_attribute("href") or ""
+
+    raw_subdomain = urlparse(href).netloc.split(".")[0]
+    itch_username = re.sub(r"[^a-zA-Z0-9_-]", "", raw_subdomain).lower()
 
     page.close()
     context.close()
