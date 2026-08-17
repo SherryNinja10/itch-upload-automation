@@ -90,13 +90,11 @@ with sync_playwright() as p:
 
     page.wait_for_url("https://itch.io/dashboard", timeout=0)
 
-    # Locate the link using the visible display name
-    user_link = page.get_by_role("link", name="Apple Banana").first
+    profile_link = page.locator(".user_menu a.user_link, .user_nav a[href*='.itch.io']").first
+    profile_link.wait_for(state="attached", timeout=10000)
 
-    # Extract the URL from the link (e.g., "https://applebanana.itch.io" or "https://applebanana.itch.io/")
-    href = user_link.get_attribute("href") or ""
+    href = profile_link.get_attribute("href") or ""
 
-    # Parse the subdomain to get the actual Butler username ("applebanana")
     itch_username = urlparse(href).netloc.split(".")[0]
 
     page.close()
