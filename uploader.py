@@ -74,6 +74,8 @@ profile_dir = Path.home() / ".itch_automation" / "itch_profile"
 
 print("Login into Itch.io")
 
+itch_username = None
+
 with sync_playwright() as p:
 
     context = p.chromium.launch_persistent_context(
@@ -88,8 +90,24 @@ with sync_playwright() as p:
 
     page.wait_for_url("https://itch.io/dashboard", timeout=0)
 
+    user_link = page.locator("a.user_link, .user_widget a.user_name, .header_user a").first
+    
+    if user_link.is_visible():
+        profile_href = user_link.get_attribute("href") or ""
+        parsed = urlparse(profile_href)
+        itch_username = parsed.netloc.split(".")[0]
+    else:
+        raw_user = page.evaluate("() => window.I && window.I.user ? window.I.user.username : null")
+        if raw_user:
+            itch_username = raw_user
+
     page.close()
     context.close()
+
+if not itch_username:
+    raise RuntimeError("Could not detect Itch.io username from dashboard. Aborting.")
+
+print(f"Logged in as: {itch_username}")
 
 # Godot Automated Export
 
@@ -106,6 +124,8 @@ for game in uploads_dir.iterdir():
         # check to see if a project.godot exists
         godot_file = game / "project.godot"
         if godot_file.exists():
+
+            print(f"The project {game.name} is being exported")
 
             raw_folder_name = game.name
 
@@ -221,11 +241,11 @@ with sync_playwright() as p:
 
         username = parsed_url.netloc.split(".")[0]
 
-        game_slug = final_url.split("/")[-1]
+        game_slug = final_url.rstrip("/").split("/")[-1]
 
         # -------------------------------------------------------------------
 
-        butler_target = f"{username}/{game_slug}:web"
+        butler_target = f"{itch_username}/{game_slug}:web"
         actual_zip_file = f"{build['zip_path']}.zip"
 
         butler_command = [
