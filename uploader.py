@@ -3,6 +3,7 @@ import shutil
 import subprocess
 from urllib.parse import urlparse
 from pathlib import Path
+import time
 from playwright.sync_api import sync_playwright
 
 # Project's won't have a export_presets.cfg file until someone clicks on the add export preset button in the export pop up.
@@ -240,9 +241,16 @@ with sync_playwright() as p:
 
         game_slug = final_url.rstrip("/").split("/")[-1]
 
+        print("final_url: ", final_url)
+        print("parsed_url: ", parsed_url)
+        print("game_slug: ", game_slug)
+
+        time.sleep(5)
+
         # -------------------------------------------------------------------
 
         butler_target = f"{itch_username}/{game_slug}:web"
+        print("butler_target: ", butler_target)
         actual_zip_file = f"{build['zip_path']}.zip"
 
         butler_command = [
@@ -265,7 +273,7 @@ with sync_playwright() as p:
 
             browser_play_checkbox = page.get_by_role("checkbox", name="This file will be played in")
 
-            max_retries = 10
+            max_retries = 20
             for attempt in range(max_retries):
                 if browser_play_checkbox.is_visible():
                     print(f"Itch.io processing complete on attempt {attempt + 1}.")
